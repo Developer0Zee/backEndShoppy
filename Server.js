@@ -5,7 +5,7 @@ import Cart from "./Cart.js";
 import User from "./User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { verify } from "auth.js";
+import { verify } from "./auth.js";
 const app = express();
 
 app.use(express.json());
@@ -19,7 +19,6 @@ db.on("open", () => {
 db.on("close", () => {
   console.log("connection lost");
 });
-
 
 const data = [
   {
@@ -122,16 +121,18 @@ app.put("/cart/:id", verify, async (req, res) => {
 app.delete("/cart/:id", verify, async (req, res) => {
   const userId = req.user.userId;
   try {
-    const item = await Cart.findOne({ _id: req.params.id, user: userId });
-    if (!item) return res.status(404).json({ message: "Cart item not found" });
+    const result = await Cart.deleteOne({ _id: req.params.id, user: userId });
 
-    await item.remove();
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Cart item not found" });
+    }
+
     res.sendStatus(204);
   } catch (error) {
+    console.error("Delete Error:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
-}
-);
+});
 
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
@@ -142,7 +143,7 @@ app.post("/register", async (req, res) => {
       return res.status(400).json({ message: "User already exist" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ email, password:hashedPassword });
+    const newUser = await User.create({ email, password: hashedPassword });
 
     res.status(201).json({ message: "User created" });
   } catch (err) {
@@ -162,7 +163,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
 
     const token = jwt.sign({ userId: user._id }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
     res.status(200).json({ token });
   } catch (error) {

@@ -77,39 +77,61 @@ DELETE /cart/:id Remove item from cart
 📦 Sample Product Data
 Preloaded automatically if DB is empty:
 
-
 [
-  {
-    "name": "Samsung Crystal 4K Vivid",
-    "price": 42990,
-    "description": "UHD Smart TV with vibrant colors and crisp display",
-    "stockQuantity": 5
-  },
-  {
-    "name": "vivo T4x 5G",
-    "price": 13999,
-    "description": "Powerful phone with 6500mAh battery and 44W fast charge",
-    "stockQuantity": 1000
-  }
+{
+"name": "Samsung Crystal 4K Vivid",
+"price": 42990,
+"description": "UHD Smart TV with vibrant colors and crisp display",
+"stockQuantity": 5
+},
+{
+"name": "vivo T4x 5G",
+"price": 13999,
+"description": "Powerful phone with 6500mAh battery and 44W fast charge",
+"stockQuantity": 1000
+}
 ]
 🧪 ThunderClient Testing
 
 Test and capture screenshots for:
 
 Register
+![Register](image.png)
 
 Login
+![Login](image-1.png)
 
-Products list and single product
+Products list
+![Product](image-2.png)
 
-Cart (add, get, update, delete)
+and single product
+
+![SpecificProduct](image-3.png)
+
+Cart
+
+(add
+
+![Product is added](image-4.png)
+Get
+![ListOfProducts](image-5.png)
+
+updates
+![QuantityUpdate](image-6.png)
+
+delete
+![Deleted](image-7.png)
+)
 
 📸 MongoDB Compass Screenshots
 Include screenshots of:
 
 products collection
+![Products](image-10.png)
 
 users collection
+![Users](image-9.png)
 
 carts collection
 
+![Cart](image-8.png)
